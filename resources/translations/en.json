@@ -1,0 +1,61 @@
+{
+  "blocks": {
+    "home": {
+      "our_collections": "Our Collections",
+      "our_edit": "Our Edit",
+      "discover": "Discover",
+      "lookbook": "Lookbook",
+      "lookbook_hint": "Click any pin to explore the piece",
+      "shop_the_look": "Shop the Full Look",
+      "testimonials_label": "Customer Reviews",
+      "testimonials_title": "What Our Clients Say",
+      "filter_sale": "On Sale",
+      "filter_new": "New In",
+      "filter_best_seller": "Best Sellers",
+      "feature_delivery_title": "Fast Delivery",
+      "feature_delivery_text": "Within 24-48 hours",
+      "feature_quality_title": "Guaranteed Quality",
+      "feature_quality_text": "Hand-picked luxury fabrics",
+      "feature_sizeguide_title": "Interactive Size Guide",
+      "feature_sizeguide_text": "Find your perfect fit",
+      "feature_returns_title": "Flexible Returns",
+      "feature_returns_text": "Exchange within 14 days",
+      "hero_eyebrow_default": "New Collection",
+      "free_shipping_default": "✦ Free shipping on all orders over 300 SAR ✦"
+    },
+    "products": {
+      "complete_the_look": "Complete the Look"
+    },
+    "footer": {
+      "categories": "Categories",
+      "customer_care": "Customer Care",
+      "contact_us": "Contact Us",
+      "newsletter_title_default": "Join the Zaynab Circle",
+      "newsletter_subtitle_default": "Be the first to know about new collections and exclusive offers",
+      "subscribe": "Subscribe",
+      "copyright_default": "© :year :store_name. All rights reserved."
+    }
+  },
+  "pages": {
+    "products": {
+      "size_guide": "Size Guide",
+      "size_guide_hint": "Enter your measurements in cm and we'll suggest your perfect size instantly",
+      "size_guide_enter_one": "Please enter at least one measurement",
+      "calculate_size": "Calculate My Size",
+      "suggested_size": "Your Suggested Size",
+      "size": "Size",
+      "unit_cm": "cm",
+      "bust": "Bust",
+      "waist": "Waist",
+      "hips": "Hips",
+      "fabric": "Fabric",
+      "fabric_care": "Care Instructions",
+      "made_in": "Made In",
+      "select_size": "Select Size",
+      "select_color": "Select Color"
+    },
+    "profile": {
+      "saved_measurements": "Your Saved Measurements"
+    }
+  }
+}

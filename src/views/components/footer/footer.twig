@@ -1,0 +1,103 @@
+{#
+  components/footer/footer.twig
+
+  Note: no footer.twig reference file was supplied alongside header.twig and
+  the other uploaded references. This file is constructed to match the exact
+  conventions confirmed across the other 29 uploaded files (salla-menu,
+  salla-contacts-style markup, theme.settings.get(), trans(), |cdn, |asset)
+  rather than guessed from a generic eCommerce template.
+
+| Variable           | Type     | Description |
+|---------------------|----------|-------------|
+| store.social         | object   | [instagram, snapchat, twitter, youtube, facebook, pinterest, whatsapp] |
+| store.contacts       | object   | [mobile, phone, email, whatsapp, telegram] |
+#}
+<footer class="store-footer zaynab-footer">
+
+    {# Newsletter / "Zaynab Circle" signup — signature touch, gold-on-navy #}
+    {% if theme.settings.get('show_newsletter', true) %}
+    <div class="zaynab-newsletter">
+        <div class="container flex flex-col md:flex-row items-center justify-between gap-6">
+            <div class="zaynab-newsletter__text">
+                <h3>{{ theme.settings.get('newsletter_title', trans('blocks.footer.newsletter_title_default')) }}</h3>
+                <p>{{ theme.settings.get('newsletter_subtitle', trans('blocks.footer.newsletter_subtitle_default')) }}</p>
+            </div>
+            <form class="zaynab-newsletter__form" onsubmit="return salla.form.onSubmit('newsletter.subscribe', event)">
+                <input type="email" name="email" required placeholder="{{ trans('common.elements.email') }}" class="form-input">
+                <salla-button type="submit" loader-position="center">
+                    {{ trans('blocks.footer.subscribe') }}
+                </salla-button>
+            </form>
+        </div>
+    </div>
+    {% endif %}
+
+    <div class="container zaynab-footer__grid">
+
+        <div class="zaynab-footer__col zaynab-footer__col--brand">
+            <a href="{{ store.url }}" class="zaynab-footer__logo" aria-label="{{ store.name }}">
+                <img src="{{ store.logo|cdn(160) }}" alt="{{ store.name }}" width="140" height="40" loading="lazy">
+            </a>
+            <p class="zaynab-footer__desc">{{ store.description }}</p>
+
+            {% if store.social %}
+                <div class="zaynab-footer__social">
+                    {% if store.social.instagram %}
+                        <a href="{{ store.social.instagram }}" target="_blank" rel="noopener" aria-label="Instagram"><i class="sicon-instagram"></i></a>
+                    {% endif %}
+                    {% if store.social.twitter %}
+                        <a href="{{ store.social.twitter }}" target="_blank" rel="noopener" aria-label="Twitter"><i class="sicon-twitter"></i></a>
+                    {% endif %}
+                    {% if store.social.snapchat %}
+                        <a href="{{ store.social.snapchat }}" target="_blank" rel="noopener" aria-label="Snapchat"><i class="sicon-snapchat"></i></a>
+                    {% endif %}
+                    {% if store.social.pinterest %}
+                        <a href="{{ store.social.pinterest }}" target="_blank" rel="noopener" aria-label="Pinterest"><i class="sicon-pinterest"></i></a>
+                    {% endif %}
+                    {% if store.social.whatsapp %}
+                        <a href="https://wa.me/{{ store.social.whatsapp|replace({' ': '', '+': '', '-': ''}) }}" target="_blank" rel="noopener" aria-label="WhatsApp"><i class="sicon-whatsapp"></i></a>
+                    {% endif %}
+                </div>
+            {% endif %}
+        </div>
+
+        <div class="zaynab-footer__col">
+            <h4 class="zaynab-footer__title">{{ trans('blocks.footer.categories') }}</h4>
+            <salla-menu source="footer" class="zaynab-footer__links"></salla-menu>
+        </div>
+
+        <div class="zaynab-footer__col">
+            <h4 class="zaynab-footer__title">{{ trans('blocks.footer.customer_care') }}</h4>
+            <ul class="zaynab-footer__links">
+                <li><a href="{{ link('customer.profile') }}">{{ trans('pages.profile.title') }}</a></li>
+                <li><a href="{{ link('customer.orders') }}">{{ trans('pages.orders.title') }}</a></li>
+                <li><a href="{{ link('customer.wishlist') }}">{{ trans('pages.wishlist.title') }}</a></li>
+                <li><a href="javascript:;" onclick="document.querySelector('zaynab-size-guide-modal').open()">{{ trans('pages.products.size_guide') }}</a></li>
+                {% for page in store.pages %}
+                    <li><a href="{{ page.url }}">{{ page.title }}</a></li>
+                {% endfor %}
+            </ul>
+        </div>
+
+        <div class="zaynab-footer__col">
+            <h4 class="zaynab-footer__title">{{ trans('blocks.footer.contact_us') }}</h4>
+            <salla-contacts class="zaynab-footer__contacts"></salla-contacts>
+        </div>
+
+    </div>
+
+    <div class="zaynab-footer__bottom">
+        <div class="container flex flex-col sm:flex-row items-center justify-between gap-4">
+            <span class="zaynab-footer__copyright">
+                {{ theme.settings.get('copyright_text', trans('blocks.footer.copyright_default', { 'store_name': store.name, 'year': "now"|date("Y") })) }}
+            </span>
+            {% if theme.settings.get('show_payment_icons', true) %}
+                <salla-payment-methods></salla-payment-methods>
+            {% endif %}
+        </div>
+    </div>
+
+</footer>
+
+{# Mobile bottom navigation menu, referenced by header.twig's hamburger trigger #}
+<custom-main-menu id="mobile-menu" class="mobile-only"></custom-main-menu>

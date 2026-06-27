@@ -1,0 +1,38 @@
+{#
+| Variable                    | Type     | Description                                                                  |
+|------------------------------|----------|------------------------------------------------------------------------------|
+| component                    | object   | Contains merchant settings for fields from twilight.json `component` section |
+| component.title              | ?string  |                                                                              |
+| component.items[].image      | string   |                                                                              |
+| component.items[].text       | string   |                                                                              |
+| component.items[].url        | string   |                                                                              |
+| component.items              | object[] |                                                                              |
+| position                     | int      | Sorting number start from zero                                               |
+#}
+<section class="s-block s-block--categories container zaynab-categories">
+    {% if component.title %}
+        <div class="s-block__title zaynab-section-header">
+            <span class="zaynab-section-label">{{ trans('blocks.home.our_collections') }}</span>
+            <h2>{{ component.title }}</h2>
+        </div>
+    {% endif %}
+
+    <div class="zaynab-categories__grid grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3 lg:gap-4">
+        {% for item in component.items %}
+            <a href="{{ item.url }}" class="zaynab-cat-card group relative block overflow-hidden">
+                <picture>
+                    <img loading="lazy" src="{{ item.image|cdn(500) }}" alt="{{ item.text }}"
+                         class="zaynab-cat-card__img w-full h-full object-cover transition-transform duration-700 group-hover:scale-105">
+                </picture>
+                <div class="zaynab-cat-card__overlay absolute inset-0"></div>
+                <div class="zaynab-cat-card__content absolute bottom-0 inset-x-0 p-4 lg:p-5">
+                    <div class="zaynab-cat-card__name">{{ item.text }}</div>
+                    <div class="zaynab-cat-card__cta opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                        {{ trans('blocks.home.discover') }}
+                        <i class="{{ theme.is_rtl ? 'sicon-arrow-left' : 'sicon-arrow-right' }}"></i>
+                    </div>
+                </div>
+            </a>
+        {% endfor %}
+    </div>
+</section>

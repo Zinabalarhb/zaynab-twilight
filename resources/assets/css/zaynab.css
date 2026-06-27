@@ -1,0 +1,675 @@
+/**
+ * zaynab.css
+ * Zaynab Theme — Visual Layer
+ *
+ * Loaded after Salla's core app.css (see layouts/master.twig), so these
+ * rules only need to add Zaynab's brand identity on top of Salla's existing
+ * base classes (.btn, .form-input, .container) — this file does not
+ * redefine Salla's core layout grid or shadow-DOM component internals.
+ */
+
+/* ============================================================
+   DESIGN TOKENS
+   (--color-primary/-dark/-light/-reverse are set inline in master.twig
+   from theme.color.*; the rest are Zaynab-specific additions)
+   ============================================================ */
+:root {
+  --zb-accent: var(--color-accent, #C9A961);
+  --zb-accent-dark: #A8863F;
+  --zb-accent-light: #E3CD96;
+  --zb-accent-xlight: #F7F0DE;
+  --zb-secondary: var(--color-secondary, #6B1F2A);
+  --zb-surface: var(--color-surface, #F5EFE3);
+  --zb-surface-alt: #EDE4D3;
+  --zb-text: #15151A;
+  --zb-text-muted: #75726B;
+  --zb-border: #E2D7C3;
+  --zb-success: #2F6B45;
+}
+
+body.theme-zaynab {
+  background: var(--zb-surface);
+  font-family: 'Tajawal', var(--font-main), sans-serif;
+}
+
+[dir="ltr"] body.theme-zaynab {
+  font-family: 'Inter', var(--font-main), sans-serif;
+}
+
+body.theme-zaynab h1,
+body.theme-zaynab h2,
+body.theme-zaynab h3 {
+  font-family: 'Tajawal', var(--font-main), sans-serif;
+}
+[dir="ltr"] body.theme-zaynab h1,
+[dir="ltr"] body.theme-zaynab h2,
+[dir="ltr"] body.theme-zaynab h3 {
+  font-family: 'Cormorant Garamond', serif;
+}
+
+/* ============================================================
+   BUTTONS (extends Salla's .btn base classes)
+   ============================================================ */
+.btn--accent {
+  background: var(--zb-accent);
+  color: var(--color-primary-dark, #060F1B);
+  border-color: var(--zb-accent);
+}
+.btn--accent:hover { background: var(--zb-accent-dark); color: #fff; }
+
+.btn--outline-gold {
+  background: transparent;
+  color: var(--zb-accent-dark);
+  border: 1px solid var(--zb-accent);
+}
+.btn--outline-gold:hover { background: var(--zb-accent); color: var(--color-primary-dark, #060F1B); }
+
+/* ============================================================
+   ANNOUNCEMENT BAR
+   ============================================================ */
+.zaynab-announcement-bar {
+  background: var(--color-primary);
+  color: var(--zb-accent-light);
+  text-align: center;
+  padding: 0.5rem 1rem;
+  font-size: 0.78rem;
+  letter-spacing: 0.03em;
+}
+
+/* ============================================================
+   HEADER
+   ============================================================ */
+.zaynab-header .navbar-brand.zaynab-brand img {
+  max-height: 42px;
+  width: auto;
+}
+
+.zaynab-header-sizeguide-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-size: 0.78rem;
+  font-weight: 600;
+  border: 1px solid var(--zb-border);
+  background: transparent;
+  color: var(--zb-text);
+  padding: 0.5rem 0.9rem;
+  margin-inline-end: 0.75rem;
+  transition: border-color 0.2s, color 0.2s;
+}
+.zaynab-header-sizeguide-btn:hover {
+  border-color: var(--zb-accent);
+  color: var(--zb-accent-dark);
+}
+
+/* ============================================================
+   SECTION HEADERS (shared across home components)
+   ============================================================ */
+.zaynab-section-header { margin-bottom: 2.5rem; }
+.zaynab-section-header--center { text-align: center; }
+.zaynab-section-header--between { display: flex; align-items: flex-end; justify-content: space-between; gap: 1rem; }
+.zaynab-section-label {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--zb-accent-dark);
+  margin-bottom: 0.75rem;
+}
+.zaynab-section-label::before {
+  content: '';
+  width: 20px;
+  height: 1px;
+  background: var(--zb-accent);
+}
+.zaynab-section-header h2 {
+  font-size: clamp(1.9rem, 3vw, 2.6rem);
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+  color: var(--zb-text);
+}
+.zaynab-section-header p { color: var(--zb-text-muted); }
+
+/* ============================================================
+   HERO SLIDER
+   ============================================================ */
+.zaynab-hero { background: var(--color-primary-dark, #060F1B); }
+.zaynab-hero__slide { min-height: 480px; }
+.zaynab-hero__slide .overlay-bg { filter: brightness(0.55); }
+.zaynab-hero__pattern {
+  background: linear-gradient(to inline-end, rgba(11,27,46,.55) 0%, rgba(11,27,46,.15) 70%);
+}
+.zaynab-hero__content { display: flex; align-items: center; }
+.zaynab-hero__inner { max-width: 560px; color: #fff; }
+.zaynab-hero__eyebrow {
+  font-size: 0.8rem;
+  font-weight: 600;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--zb-accent);
+  margin-bottom: 1rem;
+}
+.zaynab-hero__eyebrow::before {
+  content: '';
+  display: inline-block;
+  width: 28px;
+  height: 1px;
+  background: var(--zb-accent);
+  margin-inline-end: 0.5rem;
+  vertical-align: middle;
+}
+.zaynab-hero__title {
+  font-size: clamp(2.2rem, 5vw, 3.75rem);
+  font-weight: 600;
+  line-height: 1.1;
+  margin-bottom: 1.25rem;
+}
+.zaynab-hero__desc {
+  font-size: 1.05rem;
+  color: rgba(255,255,255,0.78);
+  margin-bottom: 1.75rem;
+}
+.zaynab-hero__cta { display: inline-flex; }
+
+/* ============================================================
+   TRUST BAR
+   ============================================================ */
+.zaynab-trust-bar { background: var(--zb-surface-alt); padding: 2rem 0; }
+.zaynab-trust-item { display: flex; flex-direction: column; align-items: center; gap: 0.75rem; }
+.zaynab-trust-icon {
+  width: 46px; height: 46px;
+  background: var(--zb-accent-xlight);
+  color: var(--zb-accent-dark);
+  font-size: 1.1rem;
+  display: flex; align-items: center; justify-content: center;
+  border-radius: 50%;
+}
+.zaynab-trust-title { font-weight: 700; font-size: 0.85rem; color: var(--zb-text); }
+.zaynab-trust-desc { font-size: 0.76rem; color: var(--zb-text-muted); }
+
+/* ============================================================
+   CATEGORIES
+   ============================================================ */
+.zaynab-cat-card {
+  aspect-ratio: 3/4;
+  border: 1px solid transparent;
+  transition: border-color 0.3s;
+}
+.zaynab-cat-card:hover { border-color: var(--zb-accent); }
+.zaynab-cat-card__overlay {
+  background: linear-gradient(to top, rgba(11,27,46,.88) 0%, rgba(11,27,46,.2) 55%, transparent 100%);
+}
+.zaynab-cat-card__name {
+  font-size: 1.2rem;
+  font-weight: 600;
+  color: #fff;
+}
+.zaynab-cat-card__count { font-size: 0.78rem; color: rgba(255,255,255,0.65); margin-top: 0.2rem; }
+.zaynab-cat-card__cta {
+  font-size: 0.7rem;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--zb-accent-light);
+  margin-top: 0.5rem;
+  display: flex;
+  align-items: center;
+  gap: 0.3rem;
+}
+
+/* ============================================================
+   FEATURED PRODUCTS / FILTER CHIPS
+   ============================================================ */
+.zaynab-products-section { margin-top: 4rem; margin-bottom: 4rem; }
+.zaynab-filter-chips { justify-content: center; }
+.zaynab-chip {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.5rem 1.1rem;
+  border: 1px solid var(--zb-border);
+  font-size: 0.8rem;
+  font-weight: 500;
+  background: #fff;
+  color: var(--zb-text);
+  cursor: pointer;
+  transition: all 0.18s;
+}
+.zaynab-chip:hover { border-color: var(--zb-accent); color: var(--zb-accent-dark); }
+.zaynab-chip.is-active { background: var(--color-primary); border-color: var(--color-primary); color: #fff; }
+
+/* ============================================================
+   SIGNATURE: LOOKBOOK PRODUCT CARD
+   (rendered by the custom-zaynab-product-card web component template;
+   this block styles the resulting DOM)
+   ============================================================ */
+.zaynab-product-card {
+  position: relative;
+  overflow: hidden;
+  aspect-ratio: 2/3;
+  border: 1px solid var(--zb-border);
+  background: var(--color-primary-dark, #060F1B);
+  transition: border-color 0.3s;
+  display: block;
+}
+.zaynab-product-card:hover { border-color: var(--zb-accent); }
+.zaynab-product-card__img {
+  width: 100%; height: 100%;
+  object-fit: cover;
+  transition: transform 0.7s ease;
+}
+.zaynab-product-card:hover .zaynab-product-card__img { transform: scale(1.05); }
+.zaynab-product-card__badges {
+  position: absolute; top: 1rem; inset-inline-end: 1rem;
+  display: flex; flex-direction: column; gap: 0.4rem; z-index: 2;
+}
+.zaynab-product-card__badge {
+  font-size: 9px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase;
+  padding: 3px 9px;
+}
+.zaynab-product-card__badge--sale { background: var(--zb-secondary); color: #fff; }
+.zaynab-product-card__badge--new { background: var(--color-primary); color: #fff; }
+.zaynab-product-card__badge--exclusive { background: var(--zb-accent); color: var(--color-primary-dark, #060F1B); }
+.zaynab-product-card__actions {
+  position: absolute; top: 1rem; inset-inline-start: 1rem;
+  display: flex; flex-direction: column; gap: 0.5rem; z-index: 2;
+  opacity: 0; transform: translateX(-8px); transition: all 0.3s;
+}
+.zaynab-product-card:hover .zaynab-product-card__actions { opacity: 1; transform: translateX(0); }
+.zaynab-product-card__action-btn {
+  width: 34px; height: 34px;
+  background: rgba(255,255,255,.92);
+  border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  color: var(--color-primary);
+  transition: all 0.15s;
+  border: none;
+  cursor: pointer;
+}
+.zaynab-product-card__action-btn:hover { background: var(--color-primary); color: var(--zb-accent-light); }
+.zaynab-product-card__body {
+  position: absolute; bottom: 0; inset-inline: 0;
+  padding: 1.4rem 1.1rem 1.1rem;
+  background: linear-gradient(to top, rgba(11,27,46,.96) 0%, rgba(11,27,46,.55) 65%, transparent 100%);
+  color: #fff; z-index: 1;
+}
+.zaynab-product-card__cat {
+  font-size: 10px; letter-spacing: 0.08em; text-transform: uppercase;
+  color: var(--zb-accent-light); opacity: 0.85;
+}
+.zaynab-product-card__name {
+  font-size: 1.05rem; font-weight: 600;
+  margin: 0.25rem 0 0.5rem; line-height: 1.3;
+  color: #fff;
+  display: block;
+}
+.zaynab-product-card__price { display: flex; align-items: baseline; gap: 0.5rem; }
+.zaynab-product-card__price-current { font-size: 1.05rem; font-weight: 700; color: var(--zb-accent-light); }
+.zaynab-product-card__price-original { font-size: 0.78rem; color: rgba(255,255,255,0.45); text-decoration: line-through; }
+.zaynab-product-card__add-fab {
+  position: absolute; bottom: 1.1rem; inset-inline-start: 1.1rem;
+  width: 38px; height: 38px; border-radius: 50%;
+  background: var(--zb-accent); color: var(--color-primary-dark, #060F1B);
+  display: flex; align-items: center; justify-content: center;
+  opacity: 0; transform: translateY(6px); transition: all 0.3s;
+  z-index: 2;
+  border: none;
+  cursor: pointer;
+  font-size: 1.1rem;
+}
+.zaynab-product-card:hover .zaynab-product-card__add-fab { opacity: 1; transform: translateY(0); }
+.zaynab-product-card__add-fab:hover { background: #fff; }
+
+/* Minimal / Classic card variants (alternate product_card_style setting) */
+.zaynab-product-card.style-classic {
+  background: #fff;
+  aspect-ratio: auto;
+}
+.zaynab-product-card.style-classic .zaynab-product-card__img-wrap { aspect-ratio: 3/4; overflow: hidden; }
+.zaynab-product-card.style-classic .zaynab-product-card__body {
+  position: static;
+  background: none;
+  color: var(--zb-text);
+  padding: 1rem;
+}
+.zaynab-product-card.style-classic .zaynab-product-card__name { color: var(--zb-text); }
+.zaynab-product-card.style-classic .zaynab-product-card__cat { color: var(--zb-text-muted); }
+.zaynab-product-card.style-classic .zaynab-product-card__price-current { color: var(--color-primary); }
+
+/* ============================================================
+   SIGNATURE: SHOP THE LOOK
+   ============================================================ */
+.zaynab-lookbook { background: var(--color-primary-dark, #060F1B); color: #fff; padding: 4rem 1.5rem; border-radius: 4px; margin-top: 4rem; margin-bottom: 4rem; }
+.zaynab-lookbook .zaynab-section-label { color: var(--zb-accent-light); }
+.zaynab-lookbook .zaynab-section-label::before { background: var(--zb-accent-light); }
+.zaynab-lookbook .zaynab-section-header h2 { color: #fff; }
+.zaynab-lookbook .zaynab-section-header p { color: rgba(255,255,255,0.55); }
+
+.zaynab-look-photo { aspect-ratio: 4/5; overflow: hidden; }
+.zaynab-look-photo img { filter: brightness(0.85); width: 100%; height: 100%; object-fit: cover; }
+
+.zaynab-hotspot {
+  position: absolute;
+  width: 26px; height: 26px;
+  border-radius: 50%;
+  background: rgba(255,255,255,.92);
+  border: 1px solid var(--zb-accent);
+  display: flex; align-items: center; justify-content: center;
+  cursor: pointer;
+  transition: transform 0.2s;
+}
+.zaynab-hotspot::after {
+  content: '';
+  position: absolute; inset: -6px;
+  border-radius: 50%;
+  border: 1px solid var(--zb-accent);
+  opacity: 0.6;
+  animation: zaynab-pulse 2.4s ease-out infinite;
+}
+.zaynab-hotspot:hover { transform: scale(1.18); }
+.zaynab-hotspot__dot { width: 9px; height: 9px; background: var(--zb-accent-dark); border-radius: 50%; }
+
+@keyframes zaynab-pulse {
+  0% { transform: scale(0.9); opacity: 0.7; }
+  70% { transform: scale(1.7); opacity: 0; }
+  100% { opacity: 0; }
+}
+
+.zaynab-look-info__title { font-size: 1.6rem; font-weight: 600; margin-bottom: 0.75rem; color: #fff; }
+.zaynab-look-info__desc { font-size: 0.92rem; color: rgba(255,255,255,0.55); line-height: 1.8; margin-bottom: 1.75rem; }
+
+.zaynab-look-strip { gap: 0.9rem; scrollbar-width: none; }
+.zaynab-look-strip::-webkit-scrollbar { display: none; }
+.zaynab-look-mini { width: 130px; text-decoration: none; color: #fff; transition: transform 0.3s; }
+.zaynab-look-mini.is-pulsing { transform: scale(1.05); }
+.zaynab-look-mini__img { aspect-ratio: 3/4; border: 1px solid rgba(201,169,97,.25); margin-bottom: 0.6rem; overflow: hidden; }
+.zaynab-look-mini__img img { width: 100%; height: 100%; object-fit: cover; }
+.zaynab-look-mini__name { font-size: 0.78rem; color: rgba(255,255,255,0.8); line-height: 1.4; }
+.zaynab-look-mini__price { font-size: 0.78rem; font-weight: 700; color: var(--zb-accent-light); margin-top: 2px; }
+
+/* ============================================================
+   TESTIMONIALS
+   ============================================================ */
+.zaynab-testimonials { background: var(--zb-surface-alt); padding: 4rem 1.5rem; margin-top: 4rem; margin-bottom: 4rem; border-radius: 4px; }
+
+/* ============================================================
+   FOOTER
+   ============================================================ */
+.zaynab-newsletter {
+  background: var(--color-primary);
+  padding: 3.5rem 0;
+  position: relative;
+  overflow: hidden;
+}
+.zaynab-newsletter::before {
+  content: '';
+  position: absolute; inset: 0;
+  background-image: radial-gradient(circle, var(--zb-accent) 1px, transparent 1px);
+  background-size: 32px 32px;
+  opacity: 0.05;
+}
+.zaynab-newsletter__text { position: relative; z-index: 1; color: #fff; }
+.zaynab-newsletter__text h3 { font-size: 1.5rem; font-weight: 600; margin-bottom: 0.4rem; }
+.zaynab-newsletter__text p { color: rgba(255,255,255,0.6); font-size: 0.9rem; }
+.zaynab-newsletter__form {
+  position: relative; z-index: 1;
+  display: flex;
+  border: 1px solid rgba(201,169,97,.3);
+  background: rgba(255,255,255,.06);
+  min-width: 320px;
+}
+.zaynab-newsletter__form input {
+  flex: 1; height: 52px; background: transparent; border: none;
+  padding: 0 1.25rem; color: #fff; font-size: 0.9rem; outline: none;
+}
+.zaynab-newsletter__form input::placeholder { color: rgba(255,255,255,0.4); }
+
+.zaynab-footer { background: #070E17; color: rgba(255,255,255,0.65); padding-top: 3.5rem; }
+.zaynab-footer__grid {
+  display: grid;
+  grid-template-columns: 2fr 1fr 1fr 1fr;
+  gap: 3rem;
+  padding-bottom: 3rem;
+}
+.zaynab-footer__logo { display: inline-block; margin-bottom: 1rem; }
+.zaynab-footer__desc { font-size: 0.85rem; line-height: 1.8; color: rgba(255,255,255,0.45); margin-bottom: 1.5rem; max-width: 320px; }
+.zaynab-footer__social { display: flex; gap: 0.65rem; }
+.zaynab-footer__social a {
+  width: 34px; height: 34px; border-radius: 50%;
+  border: 1px solid rgba(201,169,97,.3);
+  display: flex; align-items: center; justify-content: center;
+  color: rgba(255,255,255,0.5);
+  transition: all 0.18s;
+}
+.zaynab-footer__social a:hover { background: var(--zb-accent); border-color: var(--zb-accent); color: var(--color-primary-dark, #060F1B); }
+.zaynab-footer__title {
+  font-size: 0.75rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase;
+  color: var(--zb-accent-light); margin-bottom: 1.25rem;
+}
+.zaynab-footer__links { display: flex; flex-direction: column; gap: 0.7rem; list-style: none; padding: 0; margin: 0; }
+.zaynab-footer__links a { font-size: 0.85rem; color: rgba(255,255,255,0.45); transition: color 0.15s; text-decoration: none; }
+.zaynab-footer__links a:hover { color: var(--zb-accent-light); }
+.zaynab-footer__bottom { border-top: 1px solid rgba(201,169,97,.12); padding: 1.25rem 0; font-size: 0.78rem; color: rgba(255,255,255,0.3); }
+.zaynab-footer__copyright { font-size: 0.78rem; }
+
+/* ============================================================
+   BREADCRUMB / GENERIC PAGE HEADER
+   ============================================================ */
+.zaynab-breadcrumb { font-size: 0.85rem; color: var(--zb-text-muted); }
+
+/* ============================================================
+   PRODUCT DETAIL PAGE
+   ============================================================ */
+.zaynab-product-layout { padding-top: 1.5rem; padding-bottom: 3rem; }
+.zaynab-product-info__brand { font-size: 0.85rem; color: var(--zb-text-muted); text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 0.25rem; }
+.zaynab-product-info__title { font-size: clamp(1.6rem, 3vw, 2.2rem); font-weight: 600; line-height: 1.3; margin-bottom: 0.75rem; }
+.zaynab-product-info__rating { margin-bottom: 1rem; }
+.zaynab-rating-count { font-size: 0.85rem; color: var(--zb-text-muted); text-decoration: underline; }
+.zaynab-product-info__price { display: flex; align-items: baseline; gap: 0.75rem; flex-wrap: wrap; margin-bottom: 0.25rem; }
+.zaynab-price-current { font-size: 1.9rem; font-weight: 700; color: var(--color-primary); }
+.zaynab-price-original { font-size: 1.1rem; color: var(--zb-text-muted); text-decoration: line-through; }
+.zaynab-price-discount { background: #F0DEE1; color: var(--zb-secondary); font-size: 0.85rem; font-weight: 700; padding: 0.2rem 0.6rem; }
+.zaynab-product-info__tax { font-size: 0.75rem; color: var(--zb-text-muted); margin-bottom: 1.25rem; }
+.zaynab-product-info__short-desc { font-size: 0.95rem; color: var(--zb-text-muted); line-height: 1.75; padding-bottom: 1.25rem; border-bottom: 1px solid var(--zb-border); margin-bottom: 1.25rem; }
+
+.zaynab-product-option { margin-bottom: 1.25rem; }
+.zaynab-product-option__label {
+  font-size: 0.85rem; font-weight: 600; display: flex; justify-content: space-between; margin-bottom: 0.75rem;
+}
+.zaynab-product-option__selected { color: var(--zb-text-muted); font-weight: 400; }
+.zaynab-option-swatches { display: flex; flex-wrap: wrap; gap: 0.5rem; }
+
+.zaynab-color-swatch {
+  width: 34px; height: 34px; border-radius: 50%;
+  border: 2px solid transparent;
+  outline: 1px solid var(--zb-border);
+  outline-offset: 2px;
+  cursor: pointer;
+}
+.zaynab-color-swatch.is-active { outline-color: var(--zb-accent); outline-width: 2px; }
+.zaynab-color-swatch.is-unavailable { opacity: 0.35; cursor: not-allowed; }
+
+.zaynab-size-chip, .zaynab-option-chip {
+  min-width: 44px; height: 44px; padding: 0 0.75rem;
+  border: 1px solid var(--zb-border);
+  background: #fff;
+  font-size: 0.85rem; font-weight: 600;
+  cursor: pointer;
+  transition: all 0.18s;
+}
+.zaynab-size-chip:hover, .zaynab-option-chip:hover { border-color: var(--zb-accent); color: var(--zb-accent-dark); }
+.zaynab-size-chip.is-active, .zaynab-option-chip.is-active { background: var(--color-primary); border-color: var(--color-primary); color: #fff; }
+.zaynab-size-chip.is-unavailable, .zaynab-option-chip.is-unavailable { opacity: 0.35; text-decoration: line-through; cursor: not-allowed; }
+
+.zaynab-size-guide-trigger {
+  display: inline-flex; align-items: center; gap: 0.4rem;
+  font-size: 0.78rem; font-weight: 600;
+  text-decoration: underline;
+  color: var(--zb-text-muted);
+  background: none; border: none; cursor: pointer;
+  margin-top: 0.5rem;
+}
+.zaynab-size-guide-trigger:hover { color: var(--zb-accent-dark); }
+
+.zaynab-wishlist-btn {
+  width: 50px; height: 50px;
+  border: 1px solid var(--zb-border);
+  background: #fff;
+  display: flex; align-items: center; justify-content: center;
+  color: var(--zb-text-muted);
+  flex-shrink: 0;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+.zaynab-wishlist-btn:hover, .zaynab-wishlist-btn.is-active { border-color: var(--zb-secondary); color: var(--zb-secondary); }
+
+.zaynab-buy-now { width: 100%; }
+
+.zaynab-product-meta {
+  padding: 1.25rem 0;
+  border-top: 1px solid var(--zb-border);
+  border-bottom: 1px solid var(--zb-border);
+  margin-top: 1.25rem;
+}
+.zaynab-product-meta__row { display: flex; gap: 0.75rem; font-size: 0.85rem; margin-bottom: 0.5rem; }
+.zaynab-product-meta__label { color: var(--zb-text-muted); min-width: 100px; }
+.zaynab-product-meta__value.in-stock { color: var(--zb-success); }
+.zaynab-product-meta__value.out-of-stock { color: var(--zb-secondary); }
+
+.zaynab-share-btn {
+  display: inline-flex; align-items: center; gap: 0.4rem;
+  font-size: 0.8rem; color: var(--zb-text-muted);
+  background: none; border: none; cursor: pointer;
+  margin-top: 1.25rem;
+}
+.zaynab-share-btn:hover { color: var(--zb-accent-dark); }
+
+.zaynab-product-tabs { margin-top: 3rem; margin-bottom: 3rem; }
+.zaynab-related-products { margin-top: 3rem; margin-bottom: 3rem; }
+
+.zaynab-sticky-bar {
+  position: fixed; bottom: 0; inset-inline: 0;
+  background: #fff;
+  border-top: 1px solid var(--zb-border);
+  padding: 0.75rem 1rem;
+  display: flex; align-items: center; gap: 1rem;
+  box-shadow: 0 -4px 16px rgba(11,27,46,0.08);
+  z-index: 100;
+}
+.zaynab-sticky-bar__info { flex: 1; min-width: 0; }
+.zaynab-sticky-bar__name { font-size: 0.8rem; font-weight: 600; display: block; }
+
+/* ============================================================
+   CART PAGE
+   ============================================================ */
+.zaynab-cart-title { font-size: 1.8rem; font-weight: 700; margin-bottom: 0.5rem; }
+.zaynab-cart-item { background: #fff; border: 1px solid var(--zb-border); padding: 1.25rem 1.75rem; margin-bottom: 1.25rem; }
+.zaynab-cart-item__img-wrap { width: 96px; height: 80px; }
+.zaynab-cart-item__img { width: 100%; height: 100%; object-fit: cover; border: 1px solid var(--zb-border); }
+.zaynab-cart-item__name { font-size: 1rem; font-weight: 600; margin-bottom: 0.25rem; }
+.zaynab-cart-item__name a { color: var(--zb-text); text-decoration: none; }
+.zaynab-cart-item__price { font-weight: 700; color: var(--color-primary); }
+.zaynab-cart-item__price.has-discount { color: var(--zb-secondary); }
+.zaynab-cart-item__price-old { font-size: 0.85rem; color: var(--zb-text-muted); text-decoration: line-through; }
+.zaynab-cart-item__total { color: var(--color-primary); font-weight: 700; font-size: 0.9rem; }
+.zaynab-cart-item__remove { position: absolute; }
+.zaynab-cart-empty { text-align: center; padding: 4rem 1rem; }
+
+.zaynab-cart-card { background: #fff; border: 1px solid var(--zb-border); padding: 1.5rem 1.75rem; margin-bottom: 1.25rem; }
+.zaynab-shipping-bar { background: var(--zb-surface-alt); padding: 1.25rem 1.5rem; margin-bottom: 1.25rem; }
+.zaynab-shipping-bar__title { font-weight: 700; font-size: 0.9rem; margin-bottom: 0.25rem; }
+.zaynab-shipping-bar__msg { font-size: 0.85rem; color: var(--zb-text-muted); }
+.zaynab-shipping-bar__track { height: 4px; background: var(--zb-border); margin-top: 1rem; overflow: hidden; }
+.zaynab-shipping-bar__fill { height: 100%; background: var(--zb-accent); transition: width 0.5s ease; }
+
+.zaynab-cart-summary__title { font-size: 1.1rem; font-weight: 700; margin-bottom: 1.25rem; }
+.zaynab-summary-line { display: flex; justify-content: space-between; font-size: 0.88rem; margin-bottom: 1rem; color: var(--zb-text); }
+.zaynab-summary-line span { color: var(--zb-text-muted); }
+.zaynab-summary-line.is-discount span, .zaynab-summary-line.is-discount b { color: var(--zb-success); }
+.zaynab-summary-total { display: flex; justify-content: space-between; font-size: 1.15rem; font-weight: 700; margin: 1.25rem 0; padding-top: 1rem; border-top: 1px solid var(--zb-border); }
+.zaynab-coupon-wrap { padding: 1.25rem 0; border-top: 1px solid var(--zb-border); border-bottom: 1px solid var(--zb-border); margin-bottom: 1rem; }
+
+/* ============================================================
+   THANK YOU PAGE
+   ============================================================ */
+.zaynab-thankyou-hero { height: 13rem; margin-bottom: -13rem; width: 100%; background: var(--color-primary); }
+.zaynab-thankyou-card { background: #fff; border: 1px solid var(--zb-border); padding: 1.5rem 2rem; margin-bottom: 1.5rem; }
+.zaynab-thankyou-title { font-weight: 700; font-size: 1.2rem; margin-bottom: 0.6rem; }
+.zaynab-thankyou-orderid { color: var(--zb-text-muted); max-width: 20rem; text-align: center; font-size: 0.85rem; line-height: 1.6; margin-bottom: 1.25rem; }
+.zaynab-thankyou-block { flex: 1; background: #fff; border: 1px solid var(--zb-border); padding: 2rem; margin-bottom: 1.5rem; display: flex; flex-direction: column; align-items: center; justify-content: center; }
+.zaynab-thankyou-block__icon { background: var(--zb-surface-alt); border-radius: 50%; width: 48px; height: 48px; display: flex; align-items: center; justify-content: center; margin-bottom: 0.6rem; color: var(--zb-accent-dark); }
+
+/* ============================================================
+   ACCOUNT — SAVED MEASUREMENTS (signature)
+   ============================================================ */
+.zaynab-measurements__title { font-size: 1rem; font-weight: 700; margin-bottom: 1rem; }
+.zaynab-measurement-card {
+  background: #fff; border: 1px solid var(--zb-border);
+  padding: 1.5rem; display: flex; align-items: center; justify-content: space-between;
+  flex-wrap: wrap; gap: 1rem;
+}
+.zaynab-measurement-card__values { display: flex; gap: 1.5rem; }
+.zaynab-measurement-card__num { font-size: 1.3rem; font-weight: 700; color: var(--color-primary); }
+.zaynab-measurement-card__label { font-size: 0.75rem; color: var(--zb-text-muted); margin-top: 2px; }
+
+/* ============================================================
+   SIZE GUIDE MODAL (zaynab-size-guide-modal custom element)
+   ============================================================ */
+zaynab-size-guide-modal { display: none; }
+zaynab-size-guide-modal.is-open { display: block; position: fixed; inset: 0; z-index: 1000; }
+.zaynab-modal-backdrop {
+  position: fixed; inset: 0;
+  background: rgba(11,27,46,0.65);
+  display: flex; align-items: center; justify-content: center;
+  padding: 1rem;
+}
+.zaynab-modal {
+  background: #fff;
+  border: 1px solid var(--zb-accent);
+  max-width: 460px; width: 100%;
+  max-height: 85vh; overflow-y: auto;
+}
+.zaynab-modal__header {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 1.25rem 1.5rem; border-bottom: 1px solid var(--zb-border);
+}
+.zaynab-modal__title { font-size: 1.2rem; font-weight: 600; margin: 0; }
+.zaynab-modal__close {
+  width: 32px; height: 32px; border-radius: 50%;
+  background: var(--zb-surface-alt);
+  border: none; cursor: pointer;
+  display: flex; align-items: center; justify-content: center;
+}
+.zaynab-modal__body { padding: 1.5rem; }
+.zaynab-sg-hint { font-size: 0.85rem; color: var(--zb-text-muted); margin-bottom: 1rem; }
+.zaynab-sg-form { display: grid; gap: 0.85rem; margin-bottom: 1.25rem; padding: 1.1rem; background: var(--zb-surface-alt); }
+.zaynab-sg-label { font-size: 0.78rem; font-weight: 500; margin-bottom: 0.35rem; display: block; }
+.zaynab-sg-input { width: 100%; height: 42px; padding: 0 0.9rem; border: 1px solid var(--zb-border); font-size: 0.9rem; background: #fff; }
+.zaynab-sg-input:focus { outline: none; border-color: var(--zb-accent); }
+.zaynab-sg-result {
+  text-align: center; padding: 1.5rem;
+  background: var(--color-primary); color: #fff;
+  margin-top: 1rem;
+}
+.zaynab-sg-result__label { font-size: 0.7rem; letter-spacing: 0.08em; text-transform: uppercase; opacity: 0.65; margin-bottom: 0.4rem; }
+.zaynab-sg-result__size { font-size: 2.3rem; font-weight: 700; color: var(--zb-accent-light); }
+.zaynab-size-chart { width: 100%; font-size: 0.82rem; margin-top: 1rem; border-collapse: collapse; }
+.zaynab-size-chart th { background: var(--color-primary); color: #fff; padding: 0.6rem; font-weight: 600; }
+.zaynab-size-chart td { padding: 0.6rem; text-align: center; border-bottom: 1px solid var(--zb-border); }
+.zaynab-size-chart tr.is-highlighted td { background: var(--zb-accent-xlight); font-weight: 700; }
+
+/* ============================================================
+   RESPONSIVE
+   ============================================================ */
+@media (max-width: 1023px) {
+  .zaynab-footer__grid { grid-template-columns: 1fr 1fr; gap: 2rem; }
+  .zaynab-lookbook .grid { grid-template-columns: 1fr !important; }
+}
+@media (max-width: 767px) {
+  .zaynab-footer__grid { grid-template-columns: 1fr; gap: 2rem; }
+  .zaynab-header-sizeguide-btn { display: none; }
+  .zaynab-hero__title { font-size: 2.2rem; }
+  .zaynab-newsletter > .container { flex-direction: column; }
+}

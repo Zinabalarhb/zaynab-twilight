@@ -1,0 +1,71 @@
+{#
+| Variable                          | Type     | Description                                                                  |
+|------------------------------------|----------|------------------------------------------------------------------------------|
+| component                          | object   | Contains merchant settings for fields from twilight.json `component` section |
+| component.title                    | string   |                                                                              |
+| component.background               | string   | Image url                                                                    |
+| component.look_title               | ?string  |                                                                              |
+| component.look_description         | ?string  |                                                                              |
+| component.hotspots[].product       | Product  | full product object resolved by Twilight from the `product` field type      |
+| component.hotspots[].pos_x         | int      | percentage, 0-100                                                            |
+| component.hotspots[].pos_y         | int      | percentage, 0-100                                                            |
+| component.hotspots                 | object[] |                                                                              |
+| position                           | int      | Sorting number start from zero                                               |
+#}
+<section class="s-block s-block--lookbook container zaynab-lookbook">
+
+    <div class="zaynab-section-header zaynab-section-header--center text-center mb-10">
+        <span class="zaynab-section-label">{{ trans('blocks.home.lookbook') }}</span>
+        <h2>{{ component.title }}</h2>
+        <p>{{ trans('blocks.home.lookbook_hint') }}</p>
+    </div>
+
+    <div class="zaynab-lookbook__grid grid lg:grid-cols-[1.15fr_1fr] gap-8 lg:gap-12 items-start">
+
+        {# The lifestyle photo with clickable hotspot pins. Pure CSS-positioned
+           buttons (pos_x/pos_y are merchant-set percentages); the click handler
+           lives in zaynab.js and scrolls + pulses the matching mini-card in the
+           strip rather than navigating away from the photo. #}
+        <div class="zaynab-look-photo relative overflow-hidden">
+            <img loading="lazy" src="{{ component.background|cdn(1000) }}" alt="{{ component.look_title }}"
+                 class="w-full h-full object-cover">
+
+            {% for hotspot in component.hotspots %}
+                <button
+                    type="button"
+                    class="zaynab-hotspot"
+                    style="top:{{ hotspot.pos_y }}%; {{ theme.is_rtl ? 'right' : 'left' }}:{{ hotspot.pos_x }}%;"
+                    data-target-product="{{ hotspot.product.id }}"
+                    aria-label="{{ hotspot.product.name }}">
+                    <span class="zaynab-hotspot__dot"></span>
+                </button>
+            {% endfor %}
+        </div>
+
+        <div class="zaynab-look-info">
+            <h3 class="zaynab-look-info__title">{{ component.look_title }}</h3>
+            <p class="zaynab-look-info__desc">{{ component.look_description }}</p>
+
+            <div class="zaynab-look-strip flex gap-4 overflow-x-auto" id="zaynab-look-strip-{{ position }}">
+                {% for hotspot in component.hotspots %}
+                    {% set product = hotspot.product %}
+                    <a href="{{ product.url }}" class="zaynab-look-mini shrink-0" data-product-id="{{ product.id }}">
+                        <div class="zaynab-look-mini__img">
+                            <img loading="lazy" src="{{ product.image|cdn(300) }}" alt="{{ product.name }}">
+                        </div>
+                        <div class="zaynab-look-mini__name line-clamp-2">{{ product.name }}</div>
+                        <div class="zaynab-look-mini__price">{{ product.price }}</div>
+                    </a>
+                {% endfor %}
+            </div>
+
+            <salla-button
+                onclick="salla.cart.addMultipleItems({{ component.hotspots|map(h => {id: h.product.id, quantity: 1})|json_encode }})"
+                class="zaynab-look-cta mt-7"
+                color="accent">
+                {{ trans('blocks.home.shop_the_look') }}
+            </salla-button>
+        </div>
+
+    </div>
+</section>

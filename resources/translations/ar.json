@@ -1,0 +1,61 @@
+{
+  "blocks": {
+    "home": {
+      "our_collections": "تصنيفاتنا",
+      "our_edit": "تشكيلتنا",
+      "discover": "تصفحي",
+      "lookbook": "لوك بوك",
+      "lookbook_hint": "اضغطي على أي نقطة لاستكشاف القطعة",
+      "shop_the_look": "تسوّقي الإطلالة كاملة",
+      "testimonials_label": "آراء العميلات",
+      "testimonials_title": "ماذا تقول عميلاتنا",
+      "filter_sale": "تخفيضات",
+      "filter_new": "وصل حديثاً",
+      "filter_best_seller": "الأكثر طلباً",
+      "feature_delivery_title": "توصيل سريع",
+      "feature_delivery_text": "خلال 24-48 ساعة",
+      "feature_quality_title": "جودة مضمونة",
+      "feature_quality_text": "أقمشة فاخرة منتقاة",
+      "feature_sizeguide_title": "دليل مقاسات تفاعلي",
+      "feature_sizeguide_text": "اختاري مقاسك بدقة",
+      "feature_returns_title": "إرجاع مرن",
+      "feature_returns_text": "استبدال خلال 14 يوم",
+      "hero_eyebrow_default": "تشكيلة جديدة",
+      "free_shipping_default": "✦ شحن مجاني لجميع الطلبات فوق 300 ريال ✦"
+    },
+    "products": {
+      "complete_the_look": "مكمّلات الإطلالة"
+    },
+    "footer": {
+      "categories": "التصنيفات",
+      "customer_care": "خدمة العملاء",
+      "contact_us": "تواصل معنا",
+      "newsletter_title_default": "انضمي إلى نادي زينب",
+      "newsletter_subtitle_default": "كوني أول من يعلم بالتشكيلات الجديدة والعروض الحصرية",
+      "subscribe": "اشتركي",
+      "copyright_default": "© :year :store_name. جميع الحقوق محفوظة."
+    }
+  },
+  "pages": {
+    "products": {
+      "size_guide": "دليل المقاسات",
+      "size_guide_hint": "أدخلي قياساتك بالسنتيمتر وسنقترح عليك المقاس الأنسب فوراً",
+      "size_guide_enter_one": "يرجى إدخال قياس واحد على الأقل",
+      "calculate_size": "احسبي مقاسي",
+      "suggested_size": "المقاس المقترح لك",
+      "size": "المقاس",
+      "unit_cm": "سم",
+      "bust": "محيط الصدر",
+      "waist": "محيط الخصر",
+      "hips": "محيط الأرداف",
+      "fabric": "نوع الخامة",
+      "fabric_care": "تعليمات العناية",
+      "made_in": "بلد الصنع",
+      "select_size": "اختاري المقاس",
+      "select_color": "اختاري اللون"
+    },
+    "profile": {
+      "saved_measurements": "قياساتك المحفوظة"
+    }
+  }
+}

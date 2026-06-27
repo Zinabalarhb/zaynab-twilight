@@ -1,0 +1,78 @@
+{#
+  pages/partials/product/options.twig
+
+  Note: single.twig (the uploaded reference) includes this partial via
+  `{% include 'pages.partials.product.options' %}` but the partial itself
+  was not among the 29 uploaded files. Built here to match the confirmed
+  conventions (salla-product-options patterns, theme.is_rtl, trans()) and
+  to render Zaynab's signature circular color swatches + square size chips
+  instead of generic dropdowns.
+
+| Variable          | Type     | Description |
+|---------------------|----------|-------------|
+| product             | Product  |             |
+| product.options     | object[] | [{ id, name, type, values: [{id, name, value, is_available}] }] |
+#}
+{% for option in product.options %}
+    <div class="zaynab-product-option" data-option-id="{{ option.id }}">
+
+        <label class="zaynab-product-option__label">
+            {{ option.name }}
+            <span class="zaynab-product-option__selected" data-selected-label></span>
+        </label>
+
+        {% if option.type == 'color' %}
+            <div class="zaynab-option-swatches zaynab-option-swatches--color" role="radiogroup" aria-label="{{ option.name }}">
+                {% for value in option.values %}
+                    <button type="button"
+                            class="zaynab-color-swatch {{ loop.first ? 'is-active' : '' }} {{ value.is_available ? '' : 'is-unavailable' }}"
+                            style="background-color: {{ value.value }};"
+                            data-option-id="{{ option.id }}"
+                            data-value-id="{{ value.id }}"
+                            data-value-name="{{ value.name }}"
+                            role="radio"
+                            aria-checked="{{ loop.first ? 'true' : 'false' }}"
+                            aria-label="{{ value.name }}"
+                            {{ value.is_available ? '' : 'disabled' }}>
+                    </button>
+                {% endfor %}
+            </div>
+
+        {% elseif option.type == 'size' %}
+            <div class="zaynab-option-swatches zaynab-option-swatches--size" role="radiogroup" aria-label="{{ option.name }}">
+                {% for value in option.values %}
+                    <button type="button"
+                            class="zaynab-size-chip {{ loop.first ? 'is-active' : '' }} {{ value.is_available ? '' : 'is-unavailable' }}"
+                            data-option-id="{{ option.id }}"
+                            data-value-id="{{ value.id }}"
+                            data-value-name="{{ value.name }}"
+                            role="radio"
+                            aria-checked="{{ loop.first ? 'true' : 'false' }}"
+                            aria-label="{{ value.name }}"
+                            {{ value.is_available ? '' : 'disabled' }}>
+                        {{ value.name }}
+                    </button>
+                {% endfor %}
+            </div>
+
+        {% else %}
+            {# Generic fallback for any other option type (material, etc.) #}
+            <div class="zaynab-option-swatches" role="radiogroup" aria-label="{{ option.name }}">
+                {% for value in option.values %}
+                    <button type="button"
+                            class="zaynab-option-chip {{ loop.first ? 'is-active' : '' }} {{ value.is_available ? '' : 'is-unavailable' }}"
+                            data-option-id="{{ option.id }}"
+                            data-value-id="{{ value.id }}"
+                            data-value-name="{{ value.name }}"
+                            role="radio"
+                            aria-checked="{{ loop.first ? 'true' : 'false' }}"
+                            aria-label="{{ value.name }}"
+                            {{ value.is_available ? '' : 'disabled' }}>
+                        {{ value.name }}
+                    </button>
+                {% endfor %}
+            </div>
+        {% endif %}
+
+    </div>
+{% endfor %}

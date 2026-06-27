@@ -1,0 +1,56 @@
+{#
+| Variable                  | Type     | Description                                                                  |
+|----------------------------|----------|------------------------------------------------------------------------------|
+| component                  | object   | Contains merchant settings for fields from twilight.json `component` section |
+| component.title            | ?string  |                                                                              |
+| component.sub_title        | ?string  |                                                                              |
+| component.products         | object   | product_source field: { source, limit, ... }                                |
+| component.display_all_url  | ?string  |                                                                              |
+| position                   | int      | Sorting number start from zero                                               |
+#}
+<section class="s-block s-block--featured-products container zaynab-products-section">
+
+    <div class="zaynab-section-header zaynab-section-header--between flex items-end justify-between flex-wrap gap-4">
+        <div>
+            <span class="zaynab-section-label">{{ trans('blocks.home.our_edit') }}</span>
+            <h2>{{ component.title }}</h2>
+            {% if component.sub_title %}
+                <p>{{ component.sub_title }}</p>
+            {% endif %}
+        </div>
+        {% if component.display_all_url %}
+            <a href="{{ component.display_all_url }}" class="btn btn--outline-gold hidden sm:inline-flex">
+                {{ trans('common.elements.show_all') }}
+            </a>
+        {% endif %}
+    </div>
+
+    {# Zaynab signature: lookbook-style filter chips above the product slider.
+       These are purely client-side data-filter toggles (see zaynab.js) layered
+       on top of salla-products-slider's existing item set — no extra API calls. #}
+    <div class="zaynab-filter-chips flex gap-2 flex-wrap mb-8" role="tablist">
+        <button class="zaynab-chip is-active" data-filter="all" role="tab" aria-selected="true">{{ trans('common.elements.all') }}</button>
+        <button class="zaynab-chip" data-filter="sale" role="tab" aria-selected="false">{{ trans('blocks.home.filter_sale') }}</button>
+        <button class="zaynab-chip" data-filter="new" role="tab" aria-selected="false">{{ trans('blocks.home.filter_new') }}</button>
+        <button class="zaynab-chip" data-filter="best_seller" role="tab" aria-selected="false">{{ trans('blocks.home.filter_best_seller') }}</button>
+    </div>
+
+    <salla-products-slider
+        product-card-component="custom-zaynab-product-card"
+        source="{{ component.products.source }}"
+        {% if component.products.source == 'selected' %}
+        product-ids="{{ component.products.selected_ids|json_encode }}"
+        {% endif %}
+        {% if component.products.source == 'category' %}
+        category-id="{{ component.products.category_id }}"
+        {% endif %}
+        limit="{{ component.products.limit ?: 8 }}">
+    </salla-products-slider>
+
+    <div class="zaynab-section-cta text-center mt-10 sm:hidden">
+        {% if component.display_all_url %}
+            <a href="{{ component.display_all_url }}" class="btn btn--outline-gold">{{ trans('common.elements.show_all') }}</a>
+        {% endif %}
+    </div>
+
+</section>

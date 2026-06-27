@@ -1,0 +1,49 @@
+{#
+  components/header/custom-main-menu.twig
+
+  Referenced as <custom-main-menu></custom-main-menu> in header.twig (desktop
+  nav, beside the logo) and again as <custom-main-menu id="mobile-menu">
+  in footer.twig (the off-canvas mobile drawer triggered by the hamburger
+  button in header.twig). Both render from the same `salla-menu` source so
+  desktop and mobile links never drift out of sync.
+
+| Variable | Type   | Description |
+|----------|--------|-------------|
+| store    | object |             |
+#}
+<nav class="zaynab-main-nav hidden lg:flex items-center rtl:mr-8 ltr:ml-8">
+    <salla-menu source="main" class="zaynab-main-nav__list flex items-center gap-1"></salla-menu>
+
+    {% if theme.settings.get('show_size_guide_button', true) %}
+        <a href="javascript:;"
+           class="zaynab-main-nav__link"
+           onclick="document.querySelector('zaynab-size-guide-modal').open()">
+            {{ trans('pages.products.size_guide') }}
+        </a>
+    {% endif %}
+</nav>
+
+{# Off-canvas mobile panel — only rendered meaningfully when this component
+   is invoked with id="mobile-menu" from footer.twig; the desktop <nav> above
+   stays hidden on small screens via the `hidden lg:flex` classes. #}
+<div class="zaynab-mobile-drawer" id="mobile-menu">
+    <div class="zaynab-mobile-drawer__backdrop" onclick="this.parentElement.classList.remove('is-open')"></div>
+    <div class="zaynab-mobile-drawer__panel">
+        <div class="zaynab-mobile-drawer__header">
+            <a href="{{ store.url }}" class="zaynab-mobile-drawer__logo">
+                <img src="{{ store.logo|cdn(120) }}" alt="{{ store.name }}" height="32">
+            </a>
+            <button type="button" class="zaynab-modal__close" onclick="this.closest('.zaynab-mobile-drawer').classList.remove('is-open')" aria-label="{{ trans('common.elements.close') }}">
+                <i class="sicon-cancel"></i>
+            </button>
+        </div>
+        <salla-menu source="main" class="zaynab-mobile-drawer__nav"></salla-menu>
+        <div class="zaynab-mobile-drawer__footer">
+            {% if theme.settings.get('show_size_guide_button', true) %}
+                <button type="button" class="btn btn--outline-gold btn-full" onclick="document.querySelector('zaynab-size-guide-modal').open()">
+                    <i class="sicon-ruler"></i> {{ trans('pages.products.size_guide') }}
+                </button>
+            {% endif %}
+        </div>
+    </div>
+</div>

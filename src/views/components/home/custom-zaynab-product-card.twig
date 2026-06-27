@@ -1,0 +1,86 @@
+{#
+  components/home/custom-zaynab-product-card.twig
+
+  This is the template Twilight renders inside <salla-products-slider> and
+  <salla-products-list> whenever they're given
+  product-card-component="custom-zaynab-product-card" (see featured-products.twig,
+  lookbook-banner.twig's mini-strip is hand-rolled separately, and wishlist.twig).
+
+  Salla's product-card slot convention passes the resolved `product` object
+  directly into the custom card template — same as `custom-wishlist-card`
+  referenced in the confirmed wishlist.twig upload.
+
+| Variable              | Type    | Description |
+|------------------------|---------|-------------|
+| product                | Product |             |
+| product.id              | int     |             |
+| product.name            | string  |             |
+| product.url             | string  |             |
+| product.image           | string  |             |
+| product.price           | string  | formatted   |
+| product.sale_price       | ?string |             |
+| product.has_sale         | bool    |             |
+| product.discount_percent | ?int    |             |
+| product.is_new           | bool    |             |
+| product.is_out_of_stock  | bool    |             |
+| product.category         | ?object |             |
+| product.in_wishlist      | bool    |             |
+#}
+<article class="zaynab-product-card style-{{ theme.settings.get('product_card_style', 'lookbook') }}"
+          data-product-card
+          data-sale="{{ product.has_sale ? 'true' : 'false' }}"
+          data-new="{{ product.is_new ? 'true' : 'false' }}"
+          data-best_seller="{{ product.is_best_seller ? 'true' : 'false' }}"
+          data-product-id="{{ product.id }}">
+
+    <a href="{{ product.url }}" class="zaynab-product-card__img-wrap" tabindex="-1" aria-hidden="true">
+        <img loading="lazy" src="{{ product.image|cdn(500) }}" alt="{{ product.name }}" class="zaynab-product-card__img">
+    </a>
+
+    <div class="zaynab-product-card__badges">
+        {% if product.is_out_of_stock %}
+            <span class="zaynab-product-card__badge zaynab-product-card__badge--sale">{{ trans('pages.products.out_of_stock') }}</span>
+        {% elseif product.discount_percent %}
+            <span class="zaynab-product-card__badge zaynab-product-card__badge--sale">−{{ product.discount_percent }}٪</span>
+        {% elseif product.is_new %}
+            <span class="zaynab-product-card__badge zaynab-product-card__badge--new">{{ trans('common.elements.new') }}</span>
+        {% endif %}
+    </div>
+
+    <div class="zaynab-product-card__actions">
+        <button type="button" class="zaynab-product-card__action-btn" onclick="event.preventDefault(); salla.wishlist.add('{{ product.id }}')" aria-label="{{ trans('pages.products.add_to_wishlist') }}">
+            <i class="{{ product.in_wishlist ? 'sicon-heart' : 'sicon-heart-o' }}"></i>
+        </button>
+        <button type="button" class="zaynab-product-card__action-btn" onclick="event.preventDefault(); salla.product.quickView('{{ product.id }}')" aria-label="{{ trans('pages.products.quick_view') }}">
+            <i class="sicon-eye"></i>
+        </button>
+        {% if product.has_size_guide and theme.settings.get('show_size_guide_button', true) %}
+            <button type="button" class="zaynab-product-card__action-btn" onclick="event.preventDefault(); document.querySelector('zaynab-size-guide-modal').open({{ product.size_guide|json_encode }})" aria-label="{{ trans('pages.products.size_guide') }}">
+                <i class="sicon-ruler"></i>
+            </button>
+        {% endif %}
+    </div>
+
+    <div class="zaynab-product-card__body">
+        {% if product.category %}
+            <span class="zaynab-product-card__cat">{{ product.category.name }}</span>
+        {% endif %}
+        <a href="{{ product.url }}" class="zaynab-product-card__name line-clamp-2">{{ product.name }}</a>
+        <div class="zaynab-product-card__price">
+            <salla-price-amount class="zaynab-product-card__price-current" amount="{{ product.has_sale ? product.sale_price : product.price }}"></salla-price-amount>
+            {% if product.has_sale %}
+                <salla-price-amount class="zaynab-product-card__price-original" amount="{{ product.price }}"></salla-price-amount>
+            {% endif %}
+        </div>
+    </div>
+
+    {% if not product.is_out_of_stock %}
+        <button type="button"
+                class="zaynab-product-card__add-fab"
+                aria-label="{{ trans('pages.products.add_to_cart') }}: {{ product.name }}"
+                onclick="event.preventDefault(); salla.cart.addItem({id: '{{ product.id }}', quantity: 1})">
+            <i class="sicon-plus"></i>
+        </button>
+    {% endif %}
+
+</article>

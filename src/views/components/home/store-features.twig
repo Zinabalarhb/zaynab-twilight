@@ -1,0 +1,25 @@
+{#
+| Variable                  | Type     | Description                     |
+|----------------------------|----------|-----------------------------------|
+| component                  | object   |                                   |
+| component.items[].icon     | string   | sicon class name                 |
+| component.items[].title    | string   |                                   |
+| component.items[].text     | string   |                                   |
+| component.items            | object[] |                                   |
+| position                   | int      |                                   |
+#}
+<section class="s-block s-block--store-features zaynab-trust-bar">
+    <div class="container grid grid-cols-2 lg:grid-cols-4 gap-6 text-center">
+        {% for item in component.items %}
+            <div class="zaynab-trust-item flex flex-col items-center gap-3">
+                <div class="zaynab-trust-icon flex items-center justify-center">
+                    <i class="{{ item.icon }}"></i>
+                </div>
+                <div>
+                    <div class="zaynab-trust-title">{{ item.title }}</div>
+                    <div class="zaynab-trust-desc">{{ item.text }}</div>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+</section>

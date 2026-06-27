@@ -1,0 +1,117 @@
+{#
+| Variable            | Type   | Description                            |
+|---------------------|--------|----------------------------------------|
+| page                | object |                                        |
+| order               | Order  | @see pages/customer/orders/single.twig |
+| thank_you_title     | string |                                        |
+#}
+{% extends "layouts.master" %}
+
+{% block content %}
+    {% hook 'thank-you:start' %}
+    <div class="zaynab-thankyou-hero relative -z-1"></div>
+    <div class="container mb-20">
+        <nav class="w-full py-5">
+            <ol class="list-reset flex items-center text-sm text-primary-reverse">
+                <li><a href="{{ link('/') }}" class="fix-align text-primary-reverse">{{ trans('common.titles.home') }}</a></li>
+                <li><i class="sicon-keyboard_arrow_left mx-2"></i></li>
+                <li><span class="fix-align">{{ thank_you_title }}</span></li>
+            </ol>
+        </nav>
+        <div class="zaynab-thankyou-card">
+            <div class="flex flex-col items-center pt-16 pb-10">
+                <div class="rtl:-scale-x-100">
+                    <img src="{{ 'images/delivery-bro.svg' | asset }}" alt="{{ thank_you_title }}"
+                         class="thanks-item opacity-0 w-40 mb-8">
+                </div>
+                <h1 class="zaynab-thankyou-title thanks-item opacity-0">{{ thank_you_title }}</h1>
+                <p class="thanks-item opacity-0 zaynab-thankyou-orderid">
+                    {{ trans('pages.thank_you.order_id') }}
+                    <salla-button class="relative" onclick="app.copyToClipboard(event)" color="dark" shape="link" data-content="{{ order.reference_id }}">
+                        <span>#{{ order.reference_id }}</span>
+                        <i class="copy-icon sicon-swap-stroke pointer-events-none rtl:mr-1 ltr:ml-1"></i>
+                    </salla-button>
+                </p>
+                <salla-button onclick="salla.order.show({order_id:'{{ order.id }}', url:'{{ order.url }}'})" color="accent">
+                    <i class="sicon-newspaper rtl:ml-1 ltr:mr-1"></i>
+                    {{ trans('pages.thank_you.order_details') }}
+                </salla-button>
+            </div>
+
+            {% if order.instructions %}
+                <article class="article article--main article--small text-center">
+                    {{ order.instructions|raw }}
+                </article>
+            {% endif %}
+
+            {% for message in messages %}
+                <div class="flex flex-col items-center pt-1 pb-10 justify-start rtl:space-x-reverse space-x-2">
+                    <span class="font-bold">{{ message }}</span>
+                </div>
+            {% endfor %}
+
+            {% hook 'thank-you:items.start' %}
+            {% hook 'thank-you:items.end' %}
+        </div>
+
+        <salla-next-order-coupon></salla-next-order-coupon>
+
+        {% if order.is_pickable %}
+            <salla-order-branch></salla-order-branch>
+        {% endif %}
+
+        <div class="lg:flex rtl:space-x-reverse lg:space-x-8">
+            {% if order.email_sent %}
+                <div class="zaynab-thankyou-block">
+                    <div class="zaynab-thankyou-block__icon">
+                        <i class="sicon-newspaper-alt text-xl"></i>
+                    </div>
+                    <p class="text-sm mb-2.5">{{ trans('pages.thank_you.email_sent') }}</p>
+                    <b class="text-sm">{{ order.customer.email }}</b>
+                </div>
+            {% else %}
+                <div id="invoice-form" class="zaynab-thankyou-block">
+                    <div class="zaynab-thankyou-block__icon">
+                        <i class="sicon-newspaper-alt text-xl"></i>
+                    </div>
+                    <p class="text-sm mb-2.5">{{ trans('pages.thank_you.resend_email') }}</p>
+                    <form onsubmit="return salla.form.onSubmit('order.sendInvoice', event)">
+                        <div class="flex max-w-3xl w-full">
+                            <input type="email" class="form-input rtl:rounded-l-none ltr:rounded-r-none rtl:border-l-0 ltr:border-r-0 !w-[160px] sm:!w-[220px]" placeholder="your@email.com" required name="email">
+                            <salla-button type="submit" loader-position="center" class="rtl:rounded-r-none ltr:rounded-l-none lg:w-24 h-10">
+                                <span class="btn__text">{{ trans('blocks.comments.submit') }}</span>
+                            </salla-button>
+                        </div>
+                    </form>
+                </div>
+            {% endif %}
+
+            <div class="zaynab-thankyou-block">
+                <div class="zaynab-thankyou-block__icon">
+                    <i class="sicon-mail-letter text-xl"></i>
+                </div>
+                <p class="text-sm mb-2.5">{{ trans('common.titles.support') }}</p>
+
+                <div class="flex rtl:space-x-reverse space-x-6">
+                    {% if store.contacts.mobile %}
+                        <div class="text-sm unicode flex items-center">
+                            <i class="sicon-phone"></i>
+                            <a href="tel:{{ store.contacts.mobile }}" class="hover:text-accent-dark transition"><b class="unicode mx-1.5">{{ store.contacts.mobile }}</b></a>
+                        </div>
+                    {% endif %}
+                    {% if store.contacts.whatsapp %}
+                        <div class="text-sm unicode flex items-center">
+                            <i class="sicon-whatsapp"></i>
+                            <a href="https://wa.me/{{ store.contacts.whatsapp|replace({' ': '', '+': '', '-': ''}) }}" class="hover:text-accent-dark transition" target="_blank" rel="noopener"><b class="unicode mx-1.5">{{ store.contacts.whatsapp }}</b></a>
+                        </div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+        {% hook 'thank-you:end' %}
+    </div>
+{% endblock %}
+
+{% block scripts %}
+    <script defer src="{{ 'checkout.js' | asset }}"></script>
+{% endblock %}

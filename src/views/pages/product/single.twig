@@ -1,0 +1,215 @@
+{#
+| Variable                | Type      | Description                                          |
+|--------------------------|-----------|-------------------------------------------------------|
+| product                  | Product   |                                                       |
+| product.id               | int       |                                                       |
+| product.name              | string    |                                                       |
+| product.price             | string    | formatted, ex "٣٤٩ ر.س"                              |
+| product.sale_price        | ?string   |                                                       |
+| product.has_sale          | bool      |                                                       |
+| product.discount_percent  | ?int      |                                                       |
+| product.images            | object[]  |                                                       |
+| product.description       | string    | raw html                                              |
+| product.is_available       | bool      |                                                       |
+| product.has_size_guide    | bool      | native Salla field — confirmed in uploaded single.twig|
+| product.options           | object[]  |                                                       |
+| related_products          | Product[] |                                                       |
+#}
+{% extends "layouts.master" %}
+
+{% block head_scripts %}
+    <script defer src="{{ 'single-product.js'|asset }}"></script>
+    <script defer src="{{ 'zaynab-size-guide.js'|asset }}"></script>
+{% endblock %}
+
+{% block content %}
+<div class="container">
+    <nav class="zaynab-breadcrumb">
+        <salla-breadcrumb></salla-breadcrumb>
+    </nav>
+</div>
+
+<div class="container">
+    <div class="zaynab-product-layout grid lg:grid-cols-2 gap-8 lg:gap-12 items-start">
+
+        {# ── Gallery ── #}
+        <div class="zaynab-gallery lg:sticky lg:top-24">
+            <salla-product-gallery
+                class="rounded-md overflow-hidden"
+                zoom-on-hover
+                fix-height>
+                {% for image in product.images %}
+                    <img loading="{{ loop.first ? 'eager' : 'lazy' }}" src="{{ image.url|cdn(800) }}" alt="{{ product.name }}" slot="image">
+                {% endfor %}
+            </salla-product-gallery>
+        </div>
+
+        {# ── Product Info ── #}
+        <div class="zaynab-product-info">
+
+            {% if product.brand %}
+                <p class="zaynab-product-info__brand">{{ product.brand.name }}</p>
+            {% endif %}
+
+            <h1 class="zaynab-product-info__title">{{ product.name }}</h1>
+
+            {% if product.rating and product.rating.count > 0 %}
+                <div class="zaynab-product-info__rating flex items-center gap-2">
+                    <salla-rating-stars rating="{{ product.rating.stars }}" stars-number="5" inline></salla-rating-stars>
+                    <a href="#reviews" class="zaynab-rating-count">({{ product.rating.count }})</a>
+                </div>
+            {% endif %}
+
+            <div class="zaynab-product-info__price">
+                <salla-price-amount class="zaynab-price-current" amount="{{ product.has_sale ? product.sale_price : product.price }}"></salla-price-amount>
+                {% if product.has_sale %}
+                    <salla-price-amount class="zaynab-price-original" amount="{{ product.price }}"></salla-price-amount>
+                    {% if product.discount_percent %}
+                        <span class="zaynab-price-discount">−{{ product.discount_percent }}٪</span>
+                    {% endif %}
+                {% endif %}
+            </div>
+            <p class="zaynab-product-info__tax">{{ trans('pages.products.tax_included') }}</p>
+
+            {% if product.short_description %}
+                <div class="zaynab-product-info__short-desc">{{ product.short_description|raw }}</div>
+            {% endif %}
+
+            {% hook 'product:single.form.start' %}
+
+            <form class="zaynab-product-form" id="product-form" onsubmit="return salla.form.onSubmit('product.addToCart', event)">
+                <input type="hidden" name="id" value="{{ product.id }}">
+
+                {# Color & size options rendered via the shared options partial,
+                   kept separate so it can also be reused from the quick-view modal. #}
+                {% include 'pages.partials.product.options' with { product: product } %}
+
+                {# Zaynab signature: interactive size guide trigger, placed directly
+                   beside the size option row. Opens the shared <zaynab-size-guide-modal>
+                   declared once in layouts/master.twig, passing this product's chart. #}
+                {% if product.has_size_guide and theme.settings.get('show_size_guide_button', true) %}
+                    <button type="button"
+                            class="zaynab-size-guide-trigger"
+                            onclick="document.querySelector('zaynab-size-guide-modal').open({{ product.size_guide|json_encode }})">
+                        <i class="sicon-ruler"></i>
+                        {{ trans('pages.products.size_guide') }}
+                    </button>
+                {% endif %}
+
+                <div class="zaynab-product-info__cart flex items-center gap-3 mt-6">
+                    <salla-quantity-input
+                        value="1"
+                        max="{{ product.quantity }}"
+                        {{ product.is_available ? '' : 'disabled' }}>
+                    </salla-quantity-input>
+
+                    <salla-add-product-button
+                        class="flex-1"
+                        product-status="{{ product.status }}"
+                        product-id="{{ product.id }}"
+                        donation="{{ product.donation }}">
+                    </salla-add-product-button>
+
+                    <button type="button"
+                            class="zaynab-wishlist-btn {{ product.in_wishlist ? 'is-active' : '' }}"
+                            onclick="salla.wishlist.add('{{ product.id }}')"
+                            aria-label="{{ trans('pages.products.add_to_wishlist') }}">
+                        <i class="{{ product.in_wishlist ? 'sicon-heart' : 'sicon-heart-o' }}"></i>
+                    </button>
+                </div>
+
+                {% if product.is_available %}
+                    <salla-button type="button" class="zaynab-buy-now mt-3" fill="outline" onclick="salla.cart.quickBuy('{{ product.id }}')">
+                        {{ trans('pages.products.buy_now') }}
+                    </salla-button>
+                {% endif %}
+            </form>
+
+            {% hook 'product:single.form.end' %}
+
+            <div class="zaynab-product-meta">
+                <div class="zaynab-product-meta__row">
+                    <span class="zaynab-product-meta__label">{{ trans('pages.products.availability') }}</span>
+                    <span class="zaynab-product-meta__value {{ product.is_available ? 'in-stock' : 'out-of-stock' }}">
+                        {{ product.is_available ? trans('pages.products.in_stock') : trans('pages.products.out_of_stock') }}
+                    </span>
+                </div>
+                {% if product.sku %}
+                    <div class="zaynab-product-meta__row">
+                        <span class="zaynab-product-meta__label">{{ trans('pages.products.sku') }}</span>
+                        <span class="zaynab-product-meta__value">{{ product.sku }}</span>
+                    </div>
+                {% endif %}
+                {% if product.metadata and product.metadata.fabric %}
+                    <div class="zaynab-product-meta__row">
+                        <span class="zaynab-product-meta__label">{{ trans('pages.products.fabric') }}</span>
+                        <span class="zaynab-product-meta__value">{{ product.metadata.fabric }}</span>
+                    </div>
+                {% endif %}
+                {% if product.metadata and product.metadata.made_in %}
+                    <div class="zaynab-product-meta__row">
+                        <span class="zaynab-product-meta__label">{{ trans('pages.products.made_in') }}</span>
+                        <span class="zaynab-product-meta__value">{{ product.metadata.made_in }}</span>
+                    </div>
+                {% endif %}
+            </div>
+
+            <button type="button" class="zaynab-share-btn" onclick="salla.share()">
+                <i class="sicon-share"></i> {{ trans('pages.products.share') }}
+            </button>
+
+        </div>
+    </div>
+</div>
+
+{# ── Tabs: Description / Fabric Care / Reviews ── #}
+<div class="container zaynab-product-tabs">
+    <salla-tabs>
+        <salla-tab-item slot="tabs" name="description" selected>{{ trans('pages.products.description') }}</salla-tab-item>
+        {% if product.metadata and product.metadata.fabric_care %}
+            <salla-tab-item slot="tabs" name="care">{{ trans('pages.products.fabric_care') }}</salla-tab-item>
+        {% endif %}
+        <salla-tab-item slot="tabs" name="reviews">{{ trans('pages.products.reviews') }} {% if product.rating.count %}({{ product.rating.count }}){% endif %}</salla-tab-item>
+
+        <div slot="panels" data-panel="description">
+            {{ product.description|raw }}
+        </div>
+        {% if product.metadata and product.metadata.fabric_care %}
+            <div slot="panels" data-panel="care">
+                {{ product.metadata.fabric_care|raw }}
+            </div>
+        {% endif %}
+        <div slot="panels" data-panel="reviews" id="reviews">
+            <salla-reviews type="product" product-id="{{ product.id }}" allow-adding></salla-reviews>
+        </div>
+    </salla-tabs>
+</div>
+
+{# ── Complete the Look / Related Products ── #}
+{% if related_products|length > 0 %}
+<div class="container zaynab-related-products">
+    <div class="zaynab-section-header">
+        <span class="zaynab-section-label">{{ trans('blocks.products.complete_the_look') }}</span>
+        <h2>{{ trans('pages.products.related_products') }}</h2>
+    </div>
+    <salla-products-slider
+        product-card-component="custom-zaynab-product-card"
+        source="related"
+        product-id="{{ product.id }}"
+        limit="4">
+    </salla-products-slider>
+</div>
+{% endif %}
+
+{# Mobile sticky add-to-cart bar #}
+{% if theme.settings.get('sticky_add_to_cart', true) %}
+<div class="zaynab-sticky-bar lg:hidden">
+    <div class="zaynab-sticky-bar__info">
+        <span class="zaynab-sticky-bar__name line-clamp-1">{{ product.name }}</span>
+        <salla-price-amount amount="{{ product.has_sale ? product.sale_price : product.price }}"></salla-price-amount>
+    </div>
+    <salla-add-product-button product-status="{{ product.status }}" product-id="{{ product.id }}"></salla-add-product-button>
+</div>
+{% endif %}
+
+{% endblock %}

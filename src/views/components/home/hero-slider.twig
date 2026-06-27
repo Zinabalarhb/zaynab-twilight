@@ -1,0 +1,44 @@
+{#
+| Variable                       | Type     | Description                                                                  |
+|--------------------------------|----------|------------------------------------------------------------------------------|
+| component                      | object   | Contains merchant settings for fields from twilight.json `component` section |
+| component.slides[].image       | string   | Image url                                                                    |
+| component.slides[].title       | ?string  |                                                                              |
+| component.slides[].description | ?string  |                                                                              |
+| component.slides[].url         | ?string  |                                                                              |
+| component.slides[].button_text | ?string  |                                                                              |
+| component.slides               | object[] | list of slides                                                               |
+| position                       | int      | Sorting number start from zero                                               |
+#}
+<section class="s-block s-block--hero-slider s-block--full-bg wide-placeholder zaynab-hero">
+    <salla-slider
+      id="main-slider-{{ position }}"
+      auto-play
+      static-when-single
+      slider-config='{"lazy":"false"}'
+      {{ component.slides|length > 1 ? '' : 'show-controls="false"' }}
+      type="fullwidth">
+        <div slot="items">
+            {% for slide in component.slides %}
+                <div class="swiper-slide w-full min-h-[420px] lg:min-h-[640px] bg-dark relative zaynab-hero__slide">
+                    <div style="background-image: url({{ slide.image }});" class="overlay-bg bg-cover bg-center absolute inset-0"></div>
+                    <div class="zaynab-hero__pattern absolute inset-0"></div>
+                    <div class="flex-center container zaynab-hero__content relative h-full">
+                        <div class="zaynab-hero__inner">
+                            {% if component.slides|length > 1 %}
+                                <p class="zaynab-hero__eyebrow" data-swiper-parallax="-200">{{ trans('blocks.home.hero_eyebrow_default') }}</p>
+                            {% endif %}
+                            <h2 data-swiper-parallax="-500" class="zaynab-hero__title">{{ slide.title }}</h2>
+                            <p data-swiper-parallax="-300" class="zaynab-hero__desc line-clamp-3">{{ slide.description }}</p>
+                            {% if slide.url and slide.button_text %}
+                                <a href="{{ slide.url }}" class="btn btn--accent zaynab-hero__cta" data-swiper-parallax="-100">
+                                    {{ slide.button_text }}
+                                </a>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    </salla-slider>
+</section>

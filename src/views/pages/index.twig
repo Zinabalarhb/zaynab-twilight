@@ -1,0 +1,31 @@
+{#
+| Variable | Type   | Description |
+|----------|--------|-------------|
+| page     | object |             |
+#}
+{% extends "layouts.master" %}
+
+{% block content %}
+
+    {% component 'home.hero-slider' %}
+
+    {% component 'home.store-features' with {
+        items: [
+            { icon: 'sicon-delivery-2',  title: trans('blocks.home.feature_delivery_title'),  text: trans('blocks.home.feature_delivery_text') },
+            { icon: 'sicon-rosette-discount', title: trans('blocks.home.feature_quality_title'), text: trans('blocks.home.feature_quality_text') },
+            { icon: 'sicon-ruler',        title: trans('blocks.home.feature_sizeguide_title'), text: trans('blocks.home.feature_sizeguide_text') },
+            { icon: 'sicon-reload',       title: trans('blocks.home.feature_returns_title'),   text: trans('blocks.home.feature_returns_text') }
+        ]
+    } %}
+
+    {% component 'home.categories' %}
+
+    {% component 'home.featured-products' %}
+
+    {% component 'home.lookbook-banner' %}
+
+    {% component 'home.testimonials' with { type: 'store' } %}
+
+    {% hook 'home:content.end' %}
+
+{% endblock %}

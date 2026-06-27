@@ -1,0 +1,19 @@
+{#
+| Variable           | Type     | Description                          |
+|---------------------|----------|---------------------------------------|
+| component           | object   |                                       |
+| component.limit      | ?string  |                                       |
+| component.type       | ?string  | `default:store` all, product, store  |
+| position             | int      |                                       |
+#}
+<section class="s-block s-block--testimonials container overflow-hidden zaynab-testimonials">
+    <div class="zaynab-section-header zaynab-section-header--center text-center mb-10">
+        <span class="zaynab-section-label">{{ trans('blocks.home.testimonials_label') }}</span>
+        <h2>{{ trans('blocks.home.testimonials_title') }}</h2>
+    </div>
+    <salla-reviews
+        limit="{{ component.limit ?: 6 }}"
+        type="{{ component.type ?: 'store' }}"
+        card-component="custom-zaynab-review-card">
+    </salla-reviews>
+</section>
