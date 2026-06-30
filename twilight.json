@@ -27,7 +27,7 @@
             "type": "static",
             "format": "title",
             "id": "static-label-header",
-            "value": "<div class='rounded-lg' style='background-color: #6B1F2A; display: flex; justify-content: center; align-items: center;padding: 15px;margin-bottom: 20px !important; flex-direction: column;gap: 15px;'><h6 style='color: #C9A961;font-size: 15px; font-weight: bold;'>⚙️ الإعدادات العامة</h6></div>",
+            "value": "<div class='rounded-lg' ><h6 >⚙️ الإعدادات العامة</h6></div>",
             "variant": "h6"
         },
         {
@@ -72,7 +72,7 @@
             "type": "static",
             "format": "title",
             "id": "static-label-footer",
-            "value": "<div class='rounded-lg' style='background-color: #6B1F2A; display: flex; justify-content: center; align-items: center;padding: 15px;margin-bottom: 20px !important; flex-direction: column;gap: 15px;'><h6 style='color: #C9A961;font-size: 15px; font-weight: bold;'>🔻 خيارات أسفل الصفحة</h6></div>",
+            "value": "<div class='rounded-lg' ><h6 >🔻 خيارات أسفل الصفحة</h6></div>",
             "variant": "h6"
         },
         {
@@ -156,7 +156,7 @@
             "type": "static",
             "format": "title",
             "id": "static-label-product",
-            "value": "<div class='rounded-lg' style='background-color: #6B1F2A; display: flex; justify-content: center; align-items: center;padding: 15px;margin-bottom: 20px !important; flex-direction: column;gap: 15px;'><h6 style='color: #C9A961;font-size: 15px; font-weight: bold;'>🛍️ خيارات صفحة المنتج</h6></div>",
+            "value": "<div class='rounded-lg' ><h6 >🛍️ خيارات صفحة المنتج</h6></div>",
             "variant": "h6"
         },
         {
@@ -269,7 +269,7 @@
             "type": "static",
             "format": "title",
             "id": "static-label-announcement",
-            "value": "<div class='rounded-lg' style='background-color: #6B1F2A; display: flex; justify-content: center; align-items: center;padding: 15px;margin-bottom: 20px !important; flex-direction: column;gap: 15px;'><h6 style='color: #C9A961;font-size: 15px; font-weight: bold;'>📢 الشريط الإعلاني</h6></div>",
+            "value": "<div class='rounded-lg' ><h6 >📢 الشريط الإعلاني</h6></div>",
             "variant": "h6"
         },
         {
@@ -305,7 +305,7 @@
             "type": "static",
             "format": "title",
             "id": "static-label-colors",
-            "value": "<div class='rounded-lg' style='background-color: #6B1F2A; display: flex; justify-content: center; align-items: center;padding: 15px;margin-bottom: 20px !important; flex-direction: column;gap: 15px;'><h6 style='color: #C9A961;font-size: 15px; font-weight: bold;'>🎨 ألوان الثيم</h6></div>",
+            "value": "<div class='rounded-lg' ><h6 >🎨 ألوان الثيم</h6></div>",
             "variant": "h6"
         },
         {
